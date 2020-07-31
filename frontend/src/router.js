@@ -12,24 +12,24 @@ const router = new Router({
             meta: {layout: 'main'},
             component: () => import('./components/Home.vue')
         },
-        // {
-        //     path: '/login',
-        //     name: 'Login',
-        //     meta: {layout: 'empty'},
-        //     component: () => import('./components/Login.vue')
-        // },
+        {
+            path: '/login',
+            name: 'Login',
+            meta: {layout: 'empty'},
+            component: () => import('./components/Login.vue')
+        },
         {
             path: '/register',
             name: 'Register',
             meta: {layout: 'empty'},
             component: () => import('./components/Register.vue')
         },
-        // {
-        //     path: '/users',
-        //     name: 'UserPage',
-        //     meta: {layout: 'main', auth: true},
-        //     component: () => import('./components/UserPage.vue')
-        // },
+        {
+            path: '/page',
+            name: 'Page',
+            meta: {layout: 'main'},
+            component: () => import('./components/Page.vue')
+        },
         {
             path: '*',
             redirect: '/'

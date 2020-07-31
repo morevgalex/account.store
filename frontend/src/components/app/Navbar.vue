@@ -6,8 +6,10 @@
 
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-                <b-nav-item href="#">Home</b-nav-item>
-                <b-nav-item href="#" disabled>Test</b-nav-item>
+                <b-nav-item to="/home">Home</b-nav-item>
+                <b-nav-item to="/page">Page</b-nav-item>
+
+                <b-nav-item to="#" disabled>Test</b-nav-item>
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->
@@ -19,7 +21,7 @@
                 </template>
 
                 <template v-else>
-                    <b-nav-item href="#">Signin</b-nav-item>
+                    <b-nav-item href="/login">Signin</b-nav-item>
                     <b-nav-item href="/register">Signup</b-nav-item>
                 </template>
             </b-navbar-nav>

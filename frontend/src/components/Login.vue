@@ -1,16 +1,7 @@
 <template>
     <b-container>
         <b-form @submit="onSubmit" class="box">
-            <h1>Register</h1>
-            <b-form-input
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    required
-                    placeholder="Email"
-            ></b-form-input>
-            <!--          :state="validation"-->
-
+            <h1>Login</h1>
             <b-form-input
                     id="login"
                     v-model="form.login"
@@ -24,15 +15,11 @@
                     required
                     placeholder="Password"
             ></b-form-input>
-
-            <b-form-input
-                    id="confirm-password"
-                    v-model="form.confirm_password"
-                    required
-                    placeholder="Confirm password"
-            ></b-form-input>
-            <router-link to="/login">
-                <i class="box-link text-muted">Login</i>
+            <router-link to="#">
+                <i class="box-link text-muted">Forgot password?</i>
+            </router-link>
+            <router-link to="/register">
+                <i class="box-link text-muted">Register</i>
             </router-link>
             <input type="submit" value="Submit">
         </b-form>
@@ -44,10 +31,8 @@
         data() {
             return {
                 form: {
-                    email: '',
                     login: '',
                     password: '',
-                    confirm_password: ''
                 }
             }
         },
@@ -60,3 +45,5 @@
         computed: {}
     }
 </script>
+
+

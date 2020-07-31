@@ -9,6 +9,3 @@
         name: "Loader"
     }
 </script>
-
-<style scoped>
-</style>
