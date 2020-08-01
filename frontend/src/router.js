@@ -10,25 +10,25 @@ const router = new Router({
             path: '/',
             name: 'Home',
             meta: {layout: 'main'},
-            component: () => import('./components/Home.vue')
+            component: () => import('./components/view/Home.vue')
         },
         {
             path: '/login',
             name: 'Login',
             meta: {layout: 'empty'},
-            component: () => import('./components/Login.vue')
+            component: () => import('./components/view/Login.vue')
         },
         {
             path: '/register',
             name: 'Register',
             meta: {layout: 'empty'},
-            component: () => import('./components/Register.vue')
+            component: () => import('./components/view/Register.vue')
         },
         {
             path: '/page',
             name: 'Page',
             meta: {layout: 'main'},
-            component: () => import('./components/Page.vue')
+            component: () => import('./components/view/Page.vue')
         },
         {
             path: '*',

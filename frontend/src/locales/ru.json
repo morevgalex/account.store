@@ -1,0 +1,16 @@
+{
+  "login": "Вход",
+  "register": "Регистрация",
+  "signIn": "Войти",
+  "signUp": "Зарегистрироваться",
+  "home": "Домой",
+
+  "form-login": "Логин",
+  "form-email": "Email",
+  "form-password": "Пароль",
+  "form-confirm-password": "Повторите пароль",
+  "form-submit-button": "Отправить",
+  "form-forgot-password": "Забыли пароль?",
+  "form-register-button": "Зарегистрироваться",
+  "form-login-button": "Войти"
+}

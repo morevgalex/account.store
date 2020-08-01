@@ -1,12 +1,12 @@
 <template>
   <b-container>
-    <b-form @submit="onSubmit" class="box">
-      <h1>Login</h1>
+    <b-form @submit.prevent="onSubmit" class="box">
+      <h1>{{ $t('login') }}</h1>
       <b-form-input
           id="login"
           v-model="form.login"
           required
-          placeholder="Login"
+          :placeholder="$t('form-login')"
       ></b-form-input>
 
       <b-form-input
@@ -15,13 +15,13 @@
           required
           placeholder="Password"
       ></b-form-input>
-      <router-link to="#">
-        <i class="box-link text-muted">Forgot password?</i>
+      <router-link to="#" @click="onSubmit">
+        <i class="box-link text-muted">{{ $t('form-forgot-password') }}</i>
       </router-link>
       <router-link to="/register">
-        <i class="box-link text-muted">Register</i>
+        <i class="box-link text-muted">{{ $t('form-register-button') }}</i>
       </router-link>
-      <input type="submit" value="Submit">
+      <input type="submit" :value="$t('form-submit-button')">
     </b-form>
   </b-container>
 </template>

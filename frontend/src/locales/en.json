@@ -1,0 +1,16 @@
+{
+  "login": "Login",
+  "register": "Register",
+  "signIn": "SignIn",
+  "signUp": "SignUp",
+  "home": "Home",
+
+  "form-login": "Login",
+  "form-email": "Email",
+  "form-password": "Password",
+  "form-confirm-password": "Confirm password",
+  "form-submit-button": "Submit",
+  "form-forgot-password": "Forgot password?",
+  "form-register-button": "Register",
+  "form-login-button": "Login"
+}

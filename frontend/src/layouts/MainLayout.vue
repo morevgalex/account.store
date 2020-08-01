@@ -27,3 +27,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.app-page {
+  margin: 10px;
+}
+</style>

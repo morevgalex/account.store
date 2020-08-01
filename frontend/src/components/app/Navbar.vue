@@ -6,7 +6,7 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item to="/home">Home</b-nav-item>
+        <b-nav-item to="/home">{{ $t('home') }}</b-nav-item>
         <b-nav-item to="/page">Page</b-nav-item>
 
         <b-nav-item to="#" disabled>Test</b-nav-item>
@@ -15,14 +15,18 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
 
+        <select v-model="$root.$i18n.locale">
+          <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
+        </select>
+
         <template v-if="username">
           <b-nav-item href="#">{{ username }}</b-nav-item>
           <b-nav-item href="#" @click="logout">Logout</b-nav-item>
         </template>
 
         <template v-else>
-          <b-nav-item href="/login">Signin</b-nav-item>
-          <b-nav-item href="/register">Signup</b-nav-item>
+          <b-nav-item to="/login">{{ $t('signIn') }}</b-nav-item>
+          <b-nav-item to="/register">{{ $t('signUp') }}</b-nav-item>
         </template>
       </b-navbar-nav>
     </b-collapse>
@@ -34,7 +38,8 @@
 export default {
   name: "Navbar",
   data: () => ({
-    username: undefined
+    username: undefined,
+    langs: ['en', 'ru']
   }),
   methods: {
     logout() {
