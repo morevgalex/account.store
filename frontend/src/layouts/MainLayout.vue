@@ -1,29 +1,29 @@
 <template>
-    <div>
-        <div class="app-main-layout">
+  <div>
+    <div class="app-main-layout">
 
-            <Navbar/>
+      <Navbar/>
 
-            <main class="app-content">
-                <div class="app-page">
-                    <router-view/>
-                </div>
-            </main>
-
+      <main class="app-content">
+        <div class="app-page">
+          <router-view/>
         </div>
+      </main>
+
     </div>
+  </div>
 </template>
 
 <script>
-    import Navbar from '@/components/app/Navbar'
+import Navbar from '@/components/app/Navbar'
 
-    export default {
-        name: 'main-layout',
-        data: () => ({
-            isOpen: true
-        }),
-        components: {
-            Navbar
-        }
-    }
+export default {
+  name: 'main-layout',
+  data: () => ({
+    isOpen: true
+  }),
+  components: {
+    Navbar
+  }
+}
 </script>

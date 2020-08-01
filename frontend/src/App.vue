@@ -7,23 +7,23 @@
 </template>
 
 <script>
-    import EmptyLayout from '@/layouts/EmptyLayout'
-    import MainLayout from '@/layouts/MainLayout'
+import EmptyLayout from '@/layouts/EmptyLayout'
+import MainLayout from '@/layouts/MainLayout'
 
-    export default {
-        computed: {
-            layout() {
-                return (this.$route.meta.layout || 'empty') + '-layout'
-            }
-        },
-        components: {
-            EmptyLayout, MainLayout
-        }
+export default {
+  computed: {
+    layout() {
+      return (this.$route.meta.layout || 'empty') + '-layout'
     }
+  },
+  components: {
+    EmptyLayout, MainLayout
+  }
+}
 </script>
 
 <style lang="scss">
-  @import 'node_modules/bootstrap/scss/bootstrap';
-  @import 'node_modules/bootstrap-vue/src/index.scss';
-  @import 'assets/index.css';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+@import 'assets/index.css';
 </style>
