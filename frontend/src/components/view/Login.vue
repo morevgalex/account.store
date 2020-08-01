@@ -36,6 +36,9 @@ export default {
       }
     }
   },
+  metaInfo: {
+    title: 'Login'
+  },
   methods: {
     onSubmit(evt) {
       evt.preventDefault()

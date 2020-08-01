@@ -6,7 +6,10 @@
 
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
+  metaInfo: {
+    title: 'Home'
+  }
 }
 </script>
 

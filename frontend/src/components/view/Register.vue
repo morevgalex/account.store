@@ -51,6 +51,9 @@ export default {
       }
     }
   },
+  metaInfo: {
+    title: 'Register'
+  },
   methods: {
     onSubmit(evt) {
       evt.preventDefault()
