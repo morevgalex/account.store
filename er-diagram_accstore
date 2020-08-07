@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2020-08-07T20:44:48.947Z" agent="5.0 (X11)" etag="kjQpWPYDjs8160g1r8d6" version="13.6.0" type="github">
+<mxfile host="app.diagrams.net" modified="2020-08-07T20:53:37.177Z" agent="5.0 (X11)" etag="9jbF8gxSKyb03bB8aEgk" version="13.6.0" type="github">
   <diagram id="ircgiSIT45Vb2S97ltCF" name="Page-1">
-    <mxGraphModel dx="1822" dy="1738" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1763" dy="1704" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -270,7 +270,7 @@
           <mxGeometry x="680" y="-110" width="100" height="100" as="geometry" />
         </mxCell>
         <mxCell id="hs9-7LairrvLlskpmnBx-164" value="type" style="ellipse;whiteSpace=wrap;html=1;align=center;comic=0;strokeColor=#000000;" vertex="1" parent="1">
-          <mxGeometry x="330" y="-120" width="100" height="40" as="geometry" />
+          <mxGeometry x="260" y="-170" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="hs9-7LairrvLlskpmnBx-171" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="hs9-7LairrvLlskpmnBx-168" target="hs9-7LairrvLlskpmnBx-160">
           <mxGeometry relative="1" as="geometry" />
@@ -292,6 +292,12 @@
         </mxCell>
         <mxCell id="hs9-7LairrvLlskpmnBx-174" value="id" style="ellipse;whiteSpace=wrap;html=1;align=center;fontStyle=4;comic=0;strokeColor=#000000;" vertex="1" parent="1">
           <mxGeometry x="640" y="40" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hs9-7LairrvLlskpmnBx-180" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="hs9-7LairrvLlskpmnBx-179" target="hs9-7LairrvLlskpmnBx-123">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hs9-7LairrvLlskpmnBx-179" value="is_predefined" style="ellipse;whiteSpace=wrap;html=1;align=center;comic=0;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="330" y="-120" width="100" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
