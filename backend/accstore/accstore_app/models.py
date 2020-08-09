@@ -16,6 +16,7 @@ class Game(models.Model):
 
 class Object(models.Model):
     name = models.CharField(verbose_name='Название', max_length=128, primary_key=True, db_index=True)
+    plural_name = models.CharField(verbose_name='Множ. число', max_length=128)
 
     class Meta:
         verbose_name = 'Объект'

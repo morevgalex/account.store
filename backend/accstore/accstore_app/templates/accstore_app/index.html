@@ -5,9 +5,12 @@
     <title>game-store.pro</title>
 </head>
 <body>
-{% for game in games %}
+{% for game_with_object in games_with_objects %}
 <div>
-    <h2>{{ game.title }}</h2>
+    <h2>{{ game_with_object.game.title }}</h2>
+    {% for object in game_with_object.game_objects %}
+    <span>{{ object.object_name.plural_name }}</span>
+    {% endfor %}
 </div>
 {% endfor %}
 </body>
