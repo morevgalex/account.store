@@ -16,11 +16,17 @@ def index(request):
 
 
 def game_page(request, game_slug):
-    return HttpResponse(game_slug)
+    game = Game.objects.get(slug=game_slug)
+    game_objects = Game_Object.objects.filter(game_title=game.title)
+    pass
 
 
 def game_object_page(request, game_slug, object_slug):
-    pass
+    game = Game.objects.get(slug=game_slug)
+    game_object = Game_Object.objects.get(game_title=game.title, object_name__slug=object_slug)
+    context = {'game': game, 'game_object': game_object}
+    print(context)
+    return render(request, 'accstore_app/game_object_page.html', context)
 
 
 def product_page(request, game_slug, object_slug, product_id):
