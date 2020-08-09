@@ -45,13 +45,13 @@ class Attribute(models.Model):
     game_object_id = models.ForeignKey(Game_Object, on_delete=models.PROTECT, verbose_name='Объект игры')
 
     TYPES = (
-        ('Целый', 'Число'),
-        ('Дробный', 'Дробный'),
-        ('Строка', 'Строка'),
-        ('Булево', 'Булево'),
-        ('Дата', 'Дата'),
+        ('int', 'Число'),
+        ('float', 'Дробный'),
+        ('string', 'Строка'),
+        ('bool', 'Булево'),
+        ('date', 'Дата'),
     )
-    type_of = models.CharField(max_length=16, choices=TYPES)
+    type_of = models.CharField(verbose_name='Тип', max_length=16, choices=TYPES)
 
     ANSWERS = (
         (True, 'Да'),
@@ -83,6 +83,25 @@ class Value(models.Model):
         return f'{self.attribute_id} {self.string_value or self.integer_value or self.float_value or self.bool_value or self.date_value}'
 
 
-
 class Product(models.Model):
-    pass
+    game_object_id = models.ForeignKey(Game_Object, on_delete=models.PROTECT, verbose_name='Объект игры')
+    description = models.TextField(verbose_name='Описание', null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+
+    def __str__(self):
+        return f'Товар {self.game_object_id} id({self.pk})'
+
+
+class Product_Value(models.Model):
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
+    value_id = models.ForeignKey(Value, on_delete=models.CASCADE, verbose_name='Значение')
+
+    class Meta:
+        verbose_name = 'Товар_Значение'
+        verbose_name_plural = 'Товары_Значения'
+
+    def __str__(self):
+        return f'{self.value_id}'
