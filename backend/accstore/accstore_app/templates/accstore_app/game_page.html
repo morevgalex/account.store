@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{game.title}}</title>
 </head>
 <body>
-
+<h1>{{ game.title }}</h1>
+{% for object in game_objects %}
+<span><a href="{% url 'game_object_page' game.slug object.object_name.slug %}">{{ object.object_name }} </a></span>
+{% endfor %}
 </body>
 </html>
