@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{game_object.game}} {{game_object.object.plural_name}}</title>
+    <title>Filter {{game_object.game}} {{game_object.object.plural_name}}</title>
 </head>
 <body>
-{{game_object.game}} {{game_object.object.plural_name}}
+Filter {{game_object.game}} {{game_object.object.plural_name}}
 {% for product in products %}
 <p><a href="{% url 'product_page' game_object.game.slug game_object.object.slug product.pk %}">{{product.title}}</a></p>
 {% endfor %}

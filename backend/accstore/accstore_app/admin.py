@@ -10,9 +10,9 @@ class ObjectAdmin(admin.ModelAdmin):
 
 
 class Game_ObjectAdmin(admin.ModelAdmin):
-    list_display = ('game_title', 'object_name',)
-    list_display_links = ('game_title', 'object_name',)
-    search_fields = ('game_title__title', 'object_name__name',)
+    list_display = ('game_id', 'object_id',)
+    list_display_links = ('game_id', 'object_id',)
+    search_fields = ('game_id__title', 'object_id__name',)
 
 
 class AttributeAdmin(admin.ModelAdmin):
