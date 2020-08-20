@@ -5,6 +5,9 @@ class Game(models.Model):
     title = models.CharField(verbose_name='Название', max_length=128, db_index=True)
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
     slug = models.SlugField(verbose_name='slug', max_length=32, unique=True)
+    objects = models.ManyToManyField('Object',
+                                     through='Game_Object',
+                                     verbose_name='Объекты')
 
     class Meta:
         verbose_name = 'Игра'
@@ -34,7 +37,6 @@ class Game_Object(models.Model):
     object = models.ForeignKey(Object, on_delete=models.PROTECT, verbose_name='Объект', db_index=True)
 
     class Meta:
-        unique_together = (('game', 'object'),)
         verbose_name = 'Игра и объект'
         verbose_name_plural = 'Игры и объекты'
         ordering = ['game', 'object']
@@ -78,6 +80,9 @@ class Product(models.Model):
     title = models.CharField(verbose_name='Название', max_length=64)
     game_object = models.ForeignKey(Game_Object, on_delete=models.PROTECT, verbose_name='Объект игры')
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
+    values = models.ManyToManyField(Value,
+                                    through='Product_Value',
+                                    verbose_name='Значения')
 
     class Meta:
         verbose_name = 'Товар'
@@ -96,4 +101,4 @@ class Product_Value(models.Model):
         verbose_name_plural = 'Товары_Значения'
 
     def __str__(self):
-        return f'{self.value}'
+        return f'{self.product} {self.value}'

@@ -46,11 +46,18 @@ def add_product_page(request, game_slug, object_slug):
 
 def filter_page(request):
     game_object = Game_Object.objects.select_related('game', 'object').get(game__slug='wow', object__slug='account')
+
+    condition_race = Q(attribute__name='Race', value='Dwarf')
+    condition_level = Q(attribute__name='Level', value='3')
+    conditions_values = (condition_race, condition_level)
+
     condition_game_object = Q(game_object=game_object)
-    condition_race = Q(value__attribute__name='Race', value__value='Dwarf')
-    condition_level = Q(value__attribute__name='Level', value__value='3')
-    products = Product.objects.filter(condition_game_object, pk__in=Product_Value.objects.filter(condition_race).values('product').filter(product__in=Subquery(Product_Value.objects.filter(condition_level).values('product'))))
-    context = {'game_object': game_object, 'products': products}
+    filtered_products = Product.objects.filter(condition_game_object)
+    for condition in conditions_values:
+        filtered_products = filtered_products.filter(values__in=Value.objects.filter(condition))
+
+    context = {'game_object': game_object, 'products': filtered_products}
+
     return render(request, 'accstore_app/filter_page.html', context)
 
 
