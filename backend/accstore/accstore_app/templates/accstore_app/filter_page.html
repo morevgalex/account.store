@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{game_object.game}} {{game_object.object.plural_name}}</title>
+    <title>{{game}} {{object.plural_name}}</title>
 </head>
 <body>
-{{game_object.game}} {{game_object.object.plural_name}}
+{{game}} {{object.plural_name}}
 {% for product in products %}
-<p><a href="{% url 'product_page' game_object.game.slug game_object.object.slug product.pk %}">{{product.title}}</a></p>
+<p><a href="{% url 'product_page' game.slug object.slug product.pk %}">{{product.title}}</a></p>
 {% endfor %}
 </body>
 </html>

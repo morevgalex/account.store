@@ -7,7 +7,7 @@
 <body>
 <h1>{{product.title}}</h1>
 {% for product_value in product_values %}
-<p><span>{{product_value.value.attribute}}</span> : <span>{{product_value.value}}</span></p>
+<p><span>{{product_value.value.attribute.name}}</span> : <span>{{product_value.value}}</span></p>
 {% endfor %}
 </body>
 </html>

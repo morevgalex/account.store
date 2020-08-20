@@ -5,7 +5,7 @@ class Game(models.Model):
     title = models.CharField(verbose_name='Название', max_length=128, db_index=True)
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
     slug = models.SlugField(verbose_name='slug', max_length=32, unique=True)
-    objects = models.ManyToManyField('Object',
+    g_objects = models.ManyToManyField('Object',
                                      through='Game_Object',
                                      verbose_name='Объекты')
 
@@ -60,7 +60,7 @@ class Attribute(models.Model):
         verbose_name_plural = 'Аттрибуты объекта игры'
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.game_object} {self.name}'
 
 
 class Value(models.Model):

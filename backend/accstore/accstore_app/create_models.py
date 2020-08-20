@@ -1,94 +1,151 @@
 from .models import *
-
-
-def add_game(title):
-    game = Game(title=title, description='', slug=title.replace(' ','').lower())
-    game.save()
-    return game
-
-
-def add_object(name):
-    object_ = Object(name=name, plural_name=name+'s', slug=name.replace(' ', '').lower())
-    object_.save()
-    return object_
-
-
-def add_game_object(game, object):
-    game_object = Game_Object(game=game, object=object)
-    game_object.save()
-    return game_object
-
-
-def add_attribute(game_object, *args):
-    attributes = []
-    for arg in args:
-        attribute = Attribute(name=arg, game_object=game_object, is_predefined=True)
-        attribute.save()
-        attributes.append(attribute)
-    return attributes
-
-
-def add_values(attribute, *args):
-    values = []
-    for arg in args:
-        value = Value(attribute=attribute, value=arg)
-        value.save()
-        values.append(value)
-    return values
-
-
-def add_product(title, game_object):
-    product = Product(title=title, game_object=game_object, description='')
-    product.save()
-    return product
-
-
-def add_product_values(product, *args):
-    for arg in args:
-        product_value = Product_Value(product=product, value=arg)
-        product_value.save()
+import random
 
 
 def add():
-    game = add_game('Wow')
+    add_random_products = True
+    wow = {'title': 'World of Warcraft',
+           'description': '',
+           'slug': 'world-of-warcraft',
+           'OBJECTS': ({
+                           'name': 'Account',
+                           'plural_name': 'Accounts',
+                           'slug': 'accounts',
+                           'ATTRIBUTES': ({
+                                              'name': 'Race',
+                                              'is_predefined': True,
+                                              'VALUES': ('Dwarf', 'Elf', 'Human', 'Dead'),
+                                          },
+                                          {
+                                              'name': 'Leves',
+                                              'is_predefined': True,
+                                              'VALUES': ('1', '2', '3', '4', '5'),
+                                          },
+                                          {
+                                              'name': 'Class',
+                                              'is_predefined': True,
+                                              'VALUES': (
+                                                  'Warrior', 'Mage', 'Rogue', 'Priest', 'Paladin',
+                                                  'Shaman', 'Monk'),
+                                          },
+                                          {
+                                              'name': 'Server',
+                                              'is_predefined': True,
+                                              'VALUES': ('EU', 'RU'),
+                                          }
+                           )
+                       },
+                       {
+                           'name': 'Item',
+                           'plural_name': 'Items',
+                           'slug': 'items',
+                           'ATTRIBUTES': ({
+                                              'name': 'Race',
+                                              'is_predefined': True,
+                                              'VALUES': ('Dwarf', 'Elf', 'Human', 'Dead'),
+                                          },
+                                          {
+                                              'name': 'Leves',
+                                              'is_predefined': True,
+                                              'VALUES': ('1', '2', '3', '4', '5'),
+                                          },
+                                          {
+                                              'name': 'Class',
+                                              'is_predefined': True,
+                                              'VALUES': (
+                                                  'Warrior', 'Mage', 'Rogue', 'Priest', 'Paladin',
+                                                  'Shaman', 'Monk'),
+                                          },
+                                          {
+                                              'name': 'Server',
+                                              'is_predefined': True,
+                                              'VALUES': ('EU', 'RU'),
+                                          }
+                           )
+                       },
+           )
+           }
+    wot = {'title': 'World of Tanks',
+           'description': '',
+           'slug': 'world-of-tanks',
+           'OBJECTS': ({
+                           'name': 'Tank',
+                           'plural_name': 'Tank',
+                           'slug': 'Tank',
+                           'ATTRIBUTES': (
+                               {
+                                   'name': 'Level',
+                                   'is_predefined': True,
+                                   'VALUES': ('1', '2', '3', '4', '5'),
+                               },
+                               {
+                                   'name': 'Class',
+                                   'is_predefined': True,
+                                   'VALUES': (
+                                       'Light', 'Medium', 'Heavy', 'Artillery'),
+                               },
+                               {
+                                   'name': 'Server',
+                                   'is_predefined': True,
+                                   'VALUES': ('EU', 'RU'),
+                               }
+                           )
+                       },
 
-    object = add_object('Account')
+           )
+           }
 
-    game_object = add_game_object(game, object)
-    attributes = add_attribute(game_object, 'Race', 'Level', 'Class')
-    values_race = add_values(attributes[0], 'Dwarf', 'Elf', 'Human')
-    values_levels = add_values(attributes[1], '1', '2', '3')
-    values_classes = add_values(attributes[2], 'Warrior', 'Mage', 'Rogue')
+    games = (wow, wot)
 
-    product = add_product('Warrior Dwarf 2lvl', game_object)
-    add_product_values(product, values_race[0], values_levels[1], values_classes[0])
+    # create game
+    for game_ in games:
+        title = game_['title']
+        description = game_['description']
+        slug = game_['slug']
+        game = Game(title=title, description=description, slug=slug)
+        game.save()
 
-    product = add_product('Mage Elf 1lvl', game_object)
-    add_product_values(product, values_race[1], values_levels[0], values_classes[1])
+        for object_ in game_['OBJECTS']:
+            # create objects (and game_objects)
+            name = object_['name']
+            plural_name = object_['plural_name']
+            slug = object_['slug']
+            object = game.g_objects.create(name=name, plural_name=plural_name, slug=slug)
 
-    product = add_product('Mage Dwarf 3lvl', game_object)
-    add_product_values(product, values_race[0], values_levels[2], values_classes[1])
+            values = []
 
-    product = add_product('Rogue Human 2lvl', game_object)
-    add_product_values(product, values_race[2], values_levels[1], values_classes[2])
+            for attribute_ in object_['ATTRIBUTES']:
+                # create attributes
+                name = attribute_['name']
+                is_predefined = attribute_['is_predefined']
+                attribute = Attribute(name=name, game_object=Game_Object.objects.get(game=game, object=object),
+                                      is_predefined=is_predefined)
+                attribute.save()
 
-    product = add_product('Mage Human 3lvl', game_object)
-    add_product_values(product, values_race[2], values_levels[2], values_classes[1])
+                values_set = []
 
-    object = add_object('Item')
-    game_object = add_game_object(game, object)
-    attributes = add_attribute(game_object, 'Type', 'Level')
-    values_types = add_values(attributes[0], 'Weapon', 'Other', 'Clothe')
-    values_levels = add_values(attributes[1], '1', '2', '3')
+                for value_ in attribute_['VALUES']:
+                    # create values
+                    value = Value(value=value_, attribute=attribute)
+                    value.save()
+                    if add_random_products:
+                        values_set.append(value)
 
-    product = add_product('Dagger+7 2lvl', game_object)
-    add_product_values(product, values_types[0], values_levels[1])
+                if add_random_products:
+                    values.append(values_set)
 
-    product = add_product('Shield+1 1lvl', game_object)
-    add_product_values(product, values_types[2], values_levels[0])
+            if add_random_products:
+                for number in range(random.randint(30, 50)):
+                    values_for_product = []
+                    for value_set in values:
+                        values_for_product.append(random.choice(value_set))
 
-    game = add_game('WorldOfTanks')
-    game_object = add_game_object(game, object)
+                    title = ' '.join([value.value for value in values_for_product])
+
+                    product = Product(title=title, game_object=Game_Object.objects.get(game=game, object=object),
+                                      description='')
+                    product.save()
+                    product.values.add(*values_for_product)
 
 
 
