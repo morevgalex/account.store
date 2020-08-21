@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{product.title}}</title>
+</head>
+<body>
+<h1>{{product.title}}</h1>
+{% for value in values %}
+<p><span>{{value.attribute.name}}</span> : <span>{{value.value}}</span></p>
+{% endfor %}
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{game}} {{object.plural_name}}</title>
+</head>
+<body>
+{{game}} {{object.plural_name}}
+{% for product in products %}
+<p><a href="{% url 'product_page' game.slug object.slug product.pk %}">{{product.title}}</a></p>
+{% endfor %}
+</body>
+</html>
