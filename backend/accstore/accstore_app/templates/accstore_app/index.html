@@ -8,8 +8,8 @@
 {% for game_with_object in games_with_objects %}
 <div>
     <h2><a href="{% url 'game_page' game_with_object.game.slug %}">{{ game_with_object.game }}</a></h2>
-    {% for object in game_with_object.game_objects %}
-    <span><a href="{% url 'game_object_page' game_with_object.game.slug object.object.slug %}">{{ object.object.plural_name }}</a></span>
+    {% for object in game_with_object.objects %}
+    <span><a href="{% url 'game_object_page' game_with_object.game.slug object.slug %}">{{ object.plural_name }}</a></span>
     {% endfor %}
 </div>
 {% endfor %}

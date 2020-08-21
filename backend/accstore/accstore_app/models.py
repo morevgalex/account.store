@@ -42,7 +42,7 @@ class Game_Object(models.Model):
         ordering = ['game', 'object']
 
     def __str__(self):
-        return f'{self.game} {self.object}'
+        return f'{self.game} - {self.object}'
 
 
 class Attribute(models.Model):
@@ -60,7 +60,7 @@ class Attribute(models.Model):
         verbose_name_plural = 'Аттрибуты объекта игры'
 
     def __str__(self):
-        return f'{self.game_object} {self.name}'
+        return f'{self.game_object} - {self.name}'
 
 
 class Value(models.Model):
@@ -73,7 +73,7 @@ class Value(models.Model):
         verbose_name_plural = 'Значения аттрибута объекта игры'
 
     def __str__(self):
-        return f'{self.value}'
+        return f'{self.attribute} - {self.value}'
 
 
 class Product(models.Model):
@@ -89,7 +89,7 @@ class Product(models.Model):
         verbose_name_plural = 'Товары'
 
     def __str__(self):
-        return f'Товар {self.game_object} id({self.pk})'
+        return f'Товар {self.game_object} - id({self.pk})'
 
 
 class Product_Value(models.Model):
@@ -101,4 +101,4 @@ class Product_Value(models.Model):
         verbose_name_plural = 'Товары_Значения'
 
     def __str__(self):
-        return f'{self.product} {self.value}'
+        return f'{self.product} - {self.value}'

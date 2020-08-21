@@ -1,0 +1,107 @@
+[
+  {
+    "title": "World of Warcraft",
+    "description": "",
+    "slug": "world-of-warcraft",
+    "OBJECTS": [
+      {
+        "name": "Account",
+        "plural_name": "Accounts",
+        "slug": "accounts",
+        "ATTRIBUTES": [
+          {
+            "name": "Race",
+            "is_predefined": "True",
+            "VALUES": [
+              "Dwarf",
+              "Elf",
+              "Human",
+              "Dead"
+            ]
+          },
+          {
+            "name": "Level",
+            "is_predefined": "True",
+            "VALUES": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
+            ]
+          },
+          {
+            "name": "Class",
+            "is_predefined": "True",
+            "VALUES": [
+              "Warrior",
+              "Mage",
+              "Rogue",
+              "Priest",
+              "Paladin",
+              "Shaman",
+              "Monk"
+            ]
+          },
+          {
+            "name": "Server",
+            "is_predefined": "True",
+            "VALUES": [
+              "EU",
+              "RU"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Item",
+        "plural_name": "Items",
+        "slug": "items",
+        "ATTRIBUTES": [
+          {
+            "name": "Race",
+            "is_predefined": "True",
+            "VALUES": [
+              "Dwarf",
+              "Elf",
+              "Human",
+              "Dead"
+            ]
+          },
+          {
+            "name": "Level",
+            "is_predefined": "True",
+            "VALUES": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
+            ]
+          },
+          {
+            "name": "Class",
+            "is_predefined": "True",
+            "VALUES": [
+              "Warrior",
+              "Mage",
+              "Rogue",
+              "Priest",
+              "Paladin",
+              "Shaman",
+              "Monk"
+            ]
+          },
+          {
+            "name": "Server",
+            "is_predefined": "True",
+            "VALUES": [
+              "EU",
+              "RU"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
