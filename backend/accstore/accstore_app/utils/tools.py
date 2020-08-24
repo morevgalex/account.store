@@ -3,8 +3,7 @@ import random
 import json
 
 
-def add_models(add_random_products=False, amount=100):
-    path = 'data/data.json'
+def add_models(path, add_random_products=False, amount=100):
     games = json.load(open(path))
 
     # create game

@@ -72,5 +72,5 @@ def filter_page(request):
 
 
 def config_page(request, config_id):
-    tools.add_models(add_random_products=True)
+    tools.add_models('accstore_app/data/data.json', add_random_products=True)
     return HttpResponse('Completed')

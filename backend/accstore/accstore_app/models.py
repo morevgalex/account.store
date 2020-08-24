@@ -37,6 +37,7 @@ class Game_Object(models.Model):
     object = models.ForeignKey(Object, on_delete=models.PROTECT, verbose_name='Объект', db_index=True)
 
     class Meta:
+        unique_together = (('game', 'object'), )
         verbose_name = 'Игра и объект'
         verbose_name_plural = 'Игры и объекты'
         ordering = ['game', 'object']
@@ -97,6 +98,7 @@ class Product_Value(models.Model):
     value = models.ForeignKey(Value, on_delete=models.CASCADE, verbose_name='Значение')
 
     class Meta:
+        unique_together = (('product', 'value'), )
         verbose_name = 'Товар_Значение'
         verbose_name_plural = 'Товары_Значения'
 
