@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Game(models.Model):
-    title = models.CharField(verbose_name='Название', max_length=128, db_index=True)
+    title = models.CharField(verbose_name='Название', max_length=128, db_index=True, unique=True)
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
     slug = models.SlugField(verbose_name='slug', max_length=32, unique=True)
     g_objects = models.ManyToManyField('Object',
@@ -19,7 +19,7 @@ class Game(models.Model):
 
 
 class Object(models.Model):
-    name = models.CharField(verbose_name='Название', max_length=128, db_index=True)
+    name = models.CharField(verbose_name='Название', max_length=128, unique=True, db_index=True)
     plural_name = models.CharField(verbose_name='Множ. число', max_length=128)
     slug = models.SlugField(verbose_name='slug', max_length=32, unique=True)
 
@@ -50,6 +50,13 @@ class Attribute(models.Model):
     name = models.CharField(verbose_name='Название', max_length=128, db_index=True)
     game_object = models.ForeignKey(Game_Object, on_delete=models.PROTECT, verbose_name='Объект игры')
 
+    TYPES = (
+        ('str', 'Строка'),
+        ('int', 'Целое число'),
+        ('float', 'Число с плавающей точкой'),
+    )
+    typeof = models.CharField(verbose_name='Тип аттрибута', max_length=16, choices=TYPES)
+
     ANSWERS = (
         (True, 'Да'),
         (False, 'Нет'),
@@ -57,6 +64,7 @@ class Attribute(models.Model):
     is_predefined = models.BooleanField(verbose_name='Предопределенный атрибут?', choices=ANSWERS)
 
     class Meta:
+        unique_together = (('name', 'game_object'),)
         verbose_name = 'Аттрибут объекта игры'
         verbose_name_plural = 'Аттрибуты объекта игры'
 
