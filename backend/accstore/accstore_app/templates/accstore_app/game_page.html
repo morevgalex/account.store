@@ -6,8 +6,8 @@
 </head>
 <body>
 <h1>{{ game.title }}</h1>
-{% for object in objects %}
-<span><a href="{% url 'game_object_page' game.slug object.slug %}">{{ object }} </a></span>
+{% for g_object in g_objects %}
+<span><a href="{% url 'game_object_page' game.slug object.slug %}">{{ g_object }} </a></span>
 {% endfor %}
 </body>
 </html>

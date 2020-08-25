@@ -20,29 +20,29 @@ def game_page(request, game_slug):
     g_objects = game.g_objects.all()
 
     context = {'game': game,
-               'objects': g_objects}
+               'g_objects': g_objects}
     return render(request, 'accstore_app/game_page.html', context)
 
 
 def game_object_page(request, game_slug, object_slug):
     game = Game.objects.get(slug=game_slug)
-    g_object = Object.objects.get(game=game, slug=object_slug)
+    object = Object.objects.get(game=game, slug=object_slug)
     products = Product.objects.filter(game_object=Game_Object.objects.get(game=game, object=g_object))
 
     context = {'game': game,
-               'object': g_object,
+               'object': object,
                'products': products}
     return render(request, 'accstore_app/game_object_page.html', context)
 
 
 def product_page(request, game_slug, object_slug, product_id):
     game = Game.objects.get(slug=game_slug)
-    g_object = Object.objects.get(game=game, slug=object_slug)
+    object = Object.objects.get(game=game, slug=object_slug)
     product = Product.objects.get(pk=product_id)
-    values = product.values.all()
+    values = product.pre_values.all().union(Value.objects.filter(product_nonprevalue=product))
 
     context = {'game': game,
-               'object': g_object,
+               'object': object,
                'product': product,
                'values': values}
     return render(request, 'accstore_app/product_page.html', context)
@@ -54,23 +54,34 @@ def add_product_page(request, game_slug, object_slug):
 
 def filter_page(request):
     game = Game.objects.get(slug='world-of-warcraft')
-    g_object = Object.objects.get(game=game, slug='accounts')
+    object = Object.objects.get(slug='accounts')
 
-    condition_race = Q(attribute__name='Race', value='Dwarf')
-    condition_level = Q(attribute__name='Level', value='3')
-    conditions_values = (condition_race, condition_level)
+    condition_game_object = Q(attribute__game_object__game = game, attribute__game_object__object=object)
 
-    condition_game_object = Q(game_object__game=game, game_object__object=g_object)
-    filtered_products = Product.objects.filter(condition_game_object)
-    for condition in conditions_values:
-        filtered_products = filtered_products.filter(values__in=Value.objects.filter(condition))
+    condition_prevalue = Q(product_nonprevalue__isnull=True) & condition_game_object
+    condition_race = Q(attribute__name='Race', value='Dwarf') & condition_prevalue
+    condition_class = Q(attribute__name='Class', value='Mage') & condition_prevalue
+    conditions_for_prevalue = (condition_race, condition_class)
+
+    condition_nonpre = Q(product_nonprevalue__isnull=False) & condition_game_object
+    condition_level = Q(attribute__name='Level', value='NonPreValue1') | Q(attribute__name='Level', value='NonPreValue2') & condition_nonpre
+    conditions_for_nonpre = (condition_level, )
+
+    filtered_products = Product.objects
+
+    for condition in conditions_for_prevalue:
+        filtered_products = filtered_products.filter(pre_values=Value.objects.get(condition))
+
+    for condition in conditions_for_nonpre:
+        filtered_products = filtered_products.filter(id__in=Value.objects.filter(condition).values_list('product_nonprevalue'))
+
 
     context = {'game': game,
-               'object': g_object,
+               'object': object,
                'products': filtered_products}
     return render(request, 'accstore_app/filter_page.html', context)
 
 
 def config_page(request, config_id):
-    tools.add_models('accstore_app/data/data.json', add_random_products=True)
+    tools.add_models('accstore_app/data/data.json', add_random_products=True, amount=1000)
     return HttpResponse('Completed')

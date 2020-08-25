@@ -6,8 +6,8 @@ class Game(models.Model):
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
     slug = models.SlugField(verbose_name='slug', max_length=32, unique=True)
     g_objects = models.ManyToManyField('Object',
-                                     through='Game_Object',
-                                     verbose_name='Объекты')
+                                       through='Game_Object',
+                                       verbose_name='Объекты')
 
     class Meta:
         verbose_name = 'Игра'
@@ -33,11 +33,11 @@ class Object(models.Model):
 
 
 class Game_Object(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.PROTECT, verbose_name = 'Игра', db_index=True)
+    game = models.ForeignKey(Game, on_delete=models.PROTECT, verbose_name='Игра', db_index=True)
     object = models.ForeignKey(Object, on_delete=models.PROTECT, verbose_name='Объект', db_index=True)
 
     class Meta:
-        unique_together = (('game', 'object'), )
+        unique_together = (('game', 'object'),)
         verbose_name = 'Игра и объект'
         verbose_name_plural = 'Игры и объекты'
         ordering = ['game', 'object']
@@ -75,10 +75,11 @@ class Attribute(models.Model):
 class Value(models.Model):
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, verbose_name='Аттрибут')
     value = models.CharField(verbose_name='Значение', max_length=64, blank=True, null=True)
-    pr
+    product_nonprevalue = models.ForeignKey('Product', on_delete=models.CASCADE,
+                                            verbose_name='Продукт (для непредопределённого значения)', null=True)
 
     class Meta:
-        unique_together = (('attribute', 'value'),)
+        unique_together = (('attribute', 'value', 'product_nonprevalue'),)
         verbose_name = 'Значение аттрибута объекта игры'
         verbose_name_plural = 'Значения аттрибута объекта игры'
 
@@ -90,9 +91,9 @@ class Product(models.Model):
     title = models.CharField(verbose_name='Название', max_length=64)
     game_object = models.ForeignKey(Game_Object, on_delete=models.PROTECT, verbose_name='Объект игры')
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
-    values = models.ManyToManyField(Value,
-                                    through='Product_Value',
-                                    verbose_name='Значения')
+    pre_values = models.ManyToManyField(Value,
+                                        through='Product_PreValue',
+                                        verbose_name='Значения')
 
     class Meta:
         verbose_name = 'Товар'
@@ -102,12 +103,12 @@ class Product(models.Model):
         return f'Товар {self.game_object} - id({self.pk})'
 
 
-class Product_Value(models.Model):
+class Product_PreValue(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
     value = models.ForeignKey(Value, on_delete=models.CASCADE, verbose_name='Значение')
 
     class Meta:
-        unique_together = (('product', 'value'), )
+        unique_together = (('product', 'value'),)
         verbose_name = 'Товар_Значение'
         verbose_name_plural = 'Товары_Значения'
 

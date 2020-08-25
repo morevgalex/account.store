@@ -22,7 +22,7 @@
           },
           {
             "name": "Level",
-            "is_predefined": "True",
+            "is_predefined": "False",
             "typeof": "str",
             "VALUES": [
               "1",
@@ -75,7 +75,7 @@
           },
           {
             "name": "Level",
-            "is_predefined": "True",
+            "is_predefined": "False",
             "typeof": "str",
             "VALUES": [
               "1",
