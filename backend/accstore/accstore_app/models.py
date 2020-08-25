@@ -73,8 +73,9 @@ class Attribute(models.Model):
 
 
 class Value(models.Model):
-    attribute = models.ForeignKey(Attribute, on_delete=models.PROTECT, verbose_name='Аттрибут')
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, verbose_name='Аттрибут')
     value = models.CharField(verbose_name='Значение', max_length=64, blank=True, null=True)
+    pr
 
     class Meta:
         unique_together = (('attribute', 'value'),)

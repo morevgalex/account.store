@@ -27,7 +27,8 @@ def add_models(path, add_random_products=False, amount=100):
                 # create attributes
                 name = attribute_['name']
                 is_predefined = attribute_['is_predefined']
-                attribute = Attribute(name=name, game_object=Game_Object.objects.get(game=game, object=object),
+                typeof = attribute_['typeof']
+                attribute = Attribute(name=name, game_object=Game_Object.objects.get(game=game, object=object), typeof=typeof,
                                       is_predefined=(lambda x: x == 'True')(is_predefined))
                 attribute.save()
 
