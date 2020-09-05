@@ -2,9 +2,9 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-SECRET_KEY = 'x6odgenu(==mn@57xhai=v2w%n=5ycj2=0*afmcj@r6@9*@5__'
+SECRET_KEY = 'empty'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -15,7 +15,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accstore_app.apps.AccstoreAppConfig'
+    'accstore_app.apps.AccstoreAppConfig',
+    'rest_framework',
+    'corsheaders',
+    'api.apps.ApiConfig'
 ]
 
 MIDDLEWARE = [
@@ -72,24 +75,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LOGGING = {
-    'version': 1,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-    }
-}
-
-
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
@@ -101,3 +86,8 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+try:
+    from accstore.local_settings import *
+except ImportError:
+    pass

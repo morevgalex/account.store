@@ -28,7 +28,6 @@ class ValueAdmin(admin.ModelAdmin):
                      'attribute__name', 'value')
 
 
-
 admin.site.register(Game, GameAdmin)
 admin.site.register(Object, ObjectAdmin)
 admin.site.register(Game_Object, Game_ObjectAdmin)
