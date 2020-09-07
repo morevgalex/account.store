@@ -1,3 +1,6 @@
+from django.core.paginator import Paginator, EmptyPage
+from django.http import Http404
+
 from accstore_app.models import *
 import random
 import json
@@ -70,5 +73,25 @@ def add_models(path, add_random_products=False, amount=100):
                         Value(product_nonprevalue=product, value=choice, attribute=attribute).save()
                         product.title += f' {choice}'
                         product.save()
+
+
+def paginate(request, qs, limit_name='limit', default_limit=10, max_limit=100, page_name='page', baseurl=''):
+    try:
+        limit = int(request.GET.get(limit_name, default_limit))
+    except ValueError:
+        limit = default_limit
+    if limit > max_limit:
+        limit = default_limit
+    try:
+        page = int(request.GET.get(page_name, 1))
+    except ValueError:
+        raise Http404
+    paginator = Paginator(qs, limit)
+    paginator.baseurl = baseurl + f'?{page_name}='
+    try:
+        page = paginator.page(page)
+    except EmptyPage:
+        page = paginator.page(paginator.num_pages)
+    return paginator, page
 
 

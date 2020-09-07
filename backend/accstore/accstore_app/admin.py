@@ -28,10 +28,22 @@ class ValueAdmin(admin.ModelAdmin):
                      'attribute__name', 'value')
 
 
+class ProductAdmin(admin.ModelAdmin):
+    search_fields = ('attribute__game_object__game__title',
+                     'attribute__game_object__object__name',
+                     'attribute__name', 'value')
+
+
+class Product_PreValueAdmin(admin.ModelAdmin):
+    search_fields = ('attribute__game_object__game__title',
+                     'attribute__game_object__object__name',
+                     'attribute__name', 'value')
+
+
 admin.site.register(Game, GameAdmin)
 admin.site.register(Object, ObjectAdmin)
 admin.site.register(Game_Object, Game_ObjectAdmin)
 admin.site.register(Attribute, AttributeAdmin)
 admin.site.register(Value, ValueAdmin)
-admin.site.register(Product)
-admin.site.register(Product_PreValue)
+admin.site.register(Product, ProductAdmin)
+admin.site.register(Product_PreValue, Product_PreValueAdmin)
