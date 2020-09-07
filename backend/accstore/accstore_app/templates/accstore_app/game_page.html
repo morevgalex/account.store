@@ -6,8 +6,25 @@
 </head>
 <body>
 <h1>{{ game.title }}</h1>
-{% for object in objects %}
-<span><a href="{% url 'game_object_page' game.slug object.slug %}">{{ object }} </a></span>
+{% for object in game.g_objects.all %}
+<span><a href="{% url 'game_object' game.slug object.slug %}">{{ object }} </a></span>
 {% endfor %}
+
+{% for product in products %}
+<p><a href="{{ product.get_absolute_url }}">{{product.title}}</a></p>
+{% endfor %}
+
+<nav>
+    <ul>
+        {% for p in paginator.page_range %}
+        {% if p == page.number %}
+        <a>{{ p }}</a>
+        {% else %}
+        <a href="{{ paginator.baseurl }}{{ p }}">{{ p }}</a>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+
 </body>
 </html>

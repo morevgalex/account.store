@@ -7,7 +7,7 @@
 <body>
 {{game}} {{object.plural_name}}
 {% for product in products %}
-<p><a href="{% url 'product_page' game.slug object.slug product.pk %}">{{product.title}}</a></p>
+<p><a href="{{ product.get_absolute_url }}">{{product.title}}</a></p>
 {% endfor %}
 </body>
 </html>
