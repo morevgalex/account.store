@@ -13,14 +13,14 @@ def index(request):
     paginator, page = tools.paginate(request, games, baseurl=reverse('index'))
 
     context = {'games': page.object_list, 'paginator': paginator, 'page': page}
-    return render(request, 'accstore_app/index.html', context)
+    return render(request, 'accstore_app/base.html', context)
 
 
 @require_GET
 def game_page(request, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
     products = Product.objects.filter(game_object__game=game)
-    paginator, page = tools.paginate(request, products, baseurl=Game.get_absolute_url())
+    paginator, page = tools.paginate(request, products, baseurl=game.get_absolute_url())
 
     context = {'game': game, 'products': page.object_list, 'paginator': paginator, 'page': page}
     return render(request, 'accstore_app/game_page.html', context)

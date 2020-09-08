@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{game}} {{object.plural_name}}</title>
-</head>
-<body>
-{{game}} {{object.plural_name}}
-{% for product in products %}
-<p><a href="{{ product.get_absolute_url }}">{{product.title}}</a></p>
-{% endfor %}
-</body>
-</html>
+{% extends 'game_page.html' %}
+
+{% block head %}
+{% include 'accstore_app/elements/head/meta_head.html' %}
+<title>Filter {{ game }} | {{ sitename }}</title>
+{% endblock %}

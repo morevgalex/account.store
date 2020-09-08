@@ -1,0 +1,6 @@
+{% for game in games %}
+<div>
+    <h2><a href="{{ game.get_absolute_url }}">{{ game }}</a></h2>
+    {% include 'accstore_app/elements/content/game_objects.html' %}
+</div>
+{% endfor %}

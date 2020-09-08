@@ -1,8 +1,11 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 SECRET_KEY = 'empty'
+
+SITENAME = 'Game-Store.pro'
 
 DEBUG = False
 
@@ -36,7 +39,7 @@ ROOT_URLCONF = 'accstore.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['accstore_app/templates/accstore_app/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -44,6 +47,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'accstore_app.utils.tools.sitename'
             ],
         },
     },

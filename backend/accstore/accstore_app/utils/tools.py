@@ -4,6 +4,7 @@ from django.http import Http404
 from accstore_app.models import *
 import random
 import json
+from accstore.settings import *
 
 
 def add_models(path, add_random_products=False, amount=100):
@@ -93,5 +94,9 @@ def paginate(request, qs, limit_name='limit', default_limit=10, max_limit=100, p
     except EmptyPage:
         page = paginator.page(paginator.num_pages)
     return paginator, page
+
+
+def sitename(request):
+    return {'sitename': SITENAME}
 
 
