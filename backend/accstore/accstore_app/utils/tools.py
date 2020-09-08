@@ -1,9 +1,12 @@
 from django.core.paginator import Paginator, EmptyPage
 from django.http import Http404
+from django.shortcuts import get_object_or_404, render
+from django.db.models import Q
 
 from accstore_app.models import *
 import random
 import json
+from accstore.settings import *
 
 
 def add_models(path, add_random_products=False, amount=100):
@@ -94,4 +97,40 @@ def paginate(request, qs, limit_name='limit', default_limit=10, max_limit=100, p
         page = paginator.page(paginator.num_pages)
     return paginator, page
 
+
+def sitename(request):
+    return {'sitename': SITENAME}
+
+
+def sort_helper(game, object, conditions='TODO'):
+    condition_game_object = Q(attribute__game_object=get_object_or_404(Game_Object, game=game, object=object))
+
+    condition_prevalue = Q(product_nonprevalue__isnull=True) & condition_game_object
+    condition_race = Q(attribute__name='Racef', value='Dwarf') & condition_prevalue
+    condition_class = Q(attribute__name='Class', value='Mage') & condition_prevalue
+    conditions_for_prevalue = (condition_race, condition_class)
+
+    condition_nonpre = Q(product_nonprevalue__isnull=False) & condition_game_object
+    condition_level = Q(attribute__name='Level', value='NonPreValue1') | Q(attribute__name='Level',
+                                                                           value='NonPreValue2')
+    conditions_for_nonpre = (condition_game_object, condition_nonpre, condition_level)
+
+    filtered_products = Product.objects
+
+    for condition in conditions_for_prevalue:
+        try:
+            filtered_products = filtered_products.filter(pre_values=Value.objects.get(condition))
+        except Value.DoesNotExist:
+            raise FilterError('Error in condition')
+
+    for condition in conditions_for_nonpre:
+        filtered_products = filtered_products.filter(
+            id__in=Value.objects.filter(condition).values_list('product_nonprevalue'))
+
+    return filtered_products
+
+
+class FilterError(Exception):
+    def __init__(self, text):
+        self.text = text
 

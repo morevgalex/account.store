@@ -73,7 +73,7 @@ class Attribute(models.Model):
         verbose_name_plural = 'Аттрибуты объекта игры'
 
     def __str__(self):
-        return f'{self.game_object} - {self.name}'
+        return f'{self.name}'
 
 
 class Value(models.Model):
@@ -88,7 +88,7 @@ class Value(models.Model):
         verbose_name_plural = 'Значения аттрибута объекта игры'
 
     def __str__(self):
-        return f'{self.attribute} - {self.value}'
+        return f'{self.value}'
 
 
 class Product(models.Model):
@@ -109,7 +109,7 @@ class Product(models.Model):
                                'product_id': self.id})
 
     def __str__(self):
-        return f'Товар {self.game_object} - id({self.pk})'
+        return f'{self.title}'
 
 
 class Product_PreValue(models.Model):

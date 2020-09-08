@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% block head %}
+    {% include 'accstore_app/elements/head/head.html' %}
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+{% include 'accstore_app/elements/content/games_with_objects.html' %}
+{% endblock %}
+
+{% block nav %}
+{% include 'accstore_app/elements/nav.html' %}
+{% endblock %}
+</body>
+</html>
