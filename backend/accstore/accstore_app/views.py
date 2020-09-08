@@ -1,10 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.db.models import Q
 from .models import *
 from .utils import tools
 from django.views.decorators.http import require_GET
 from django.shortcuts import get_object_or_404, get_list_or_404
+
+from .utils.tools import FilterError
 
 
 @require_GET
@@ -65,32 +66,12 @@ def filter_page(request):
     game = get_object_or_404(Game, slug='world-of-warcraft')
     object = get_object_or_404(Object, slug='accounts')
 
-    condition_game_object = Q(attribute__game_object=get_object_or_404(Game_Object, game=game, object=object))
+    try:
+        filtered_products = tools.sort_helper(game, object)
+    except FilterError:
+        filtered_products = []
 
-    condition_prevalue = Q(product_nonprevalue__isnull=True) & condition_game_object
-    condition_race = Q(attribute__name='Race', value='Dwarf') & condition_prevalue
-    condition_class = Q(attribute__name='Class', value='Mage') & condition_prevalue
-    conditions_for_prevalue = (condition_race, condition_class)
-
-    condition_nonpre = Q(product_nonprevalue__isnull=False) & condition_game_object
-    condition_level = Q(attribute__name='Level', value='NonPreValue1') | Q(attribute__name='Level',
-                                                                           value='NonPreValue2')
-    conditions_for_nonpre = (condition_game_object, condition_nonpre, condition_level)
-
-    filtered_products = Product.objects
-    context = {'game': game, 'object': object, 'products': []}
-
-    for condition in conditions_for_prevalue:
-        try:
-            filtered_products = filtered_products.filter(pre_values=Value.objects.get(condition))
-        except Value.DoesNotExist:
-            return render(request, 'accstore_app/filter_page.html', context)
-
-    for condition in conditions_for_nonpre:
-        filtered_products = filtered_products.filter(
-            id__in=Value.objects.filter(condition).values_list('product_nonprevalue'))
-
-    context['products'] = filtered_products
+    context = {'game': game, 'object': object, 'products': filtered_products}
 
     return render(request, 'accstore_app/filter_page.html', context)
 
