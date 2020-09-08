@@ -20,7 +20,7 @@ def index(request):
 def game_page(request, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
     products = Product.objects.filter(game_object__game=game)
-    paginator, page = tools.paginate(request, products, baseurl=reverse('game', kwargs={'game_slug': game_slug}))
+    paginator, page = tools.paginate(request, products, baseurl=Game.get_absolute_url())
 
     context = {'game': game, 'products': page.object_list, 'paginator': paginator, 'page': page}
     return render(request, 'accstore_app/game_page.html', context)
@@ -31,10 +31,14 @@ def game_object_page(request, game_slug, object_slug):
     game = get_object_or_404(Game, slug=game_slug)
     object = get_object_or_404(Object, game=game, slug=object_slug)
     products = get_list_or_404(Product, game_object=get_object_or_404(Game_Object, game=game, object=object))
+    paginator, page = tools.paginate(request, products, baseurl=reverse('game_object', kwargs={'game_slug': game_slug,
+                                                                                               'object_slug': object_slug}))
 
     context = {'game': game,
                'object': object,
-               'products': products}
+               'products': page.object_list,
+               'paginator': paginator,
+               'page': page}
     return render(request, 'accstore_app/game_object_page.html', context)
 
 

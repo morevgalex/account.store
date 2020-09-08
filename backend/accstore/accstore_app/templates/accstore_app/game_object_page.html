@@ -9,5 +9,19 @@
 {% for product in products %}
 <p><a href="{{ product.get_absolute_url }}">{{product.title}}</a></p>
 {% endfor %}
+
+<nav>
+    <ul>
+        {% for p in paginator.page_range %}
+        {% if p == page.number %}
+        <a>{{ p }}</a>
+        {% else %}
+        <a href="{{ paginator.baseurl }}{{ p }}">{{ p }}</a>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+
+
 </body>
 </html>
