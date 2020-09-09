@@ -106,7 +106,7 @@ def sort_helper(game, object, conditions='TODO'):
     condition_game_object = Q(attribute__game_object=get_object_or_404(Game_Object, game=game, object=object))
 
     condition_prevalue = Q(product_nonprevalue__isnull=True) & condition_game_object
-    condition_race = Q(attribute__name='Racef', value='Dwarf') & condition_prevalue
+    condition_race = Q(attribute__name='Race', value='Dwarf') & condition_prevalue
     condition_class = Q(attribute__name='Class', value='Mage') & condition_prevalue
     conditions_for_prevalue = (condition_race, condition_class)
 

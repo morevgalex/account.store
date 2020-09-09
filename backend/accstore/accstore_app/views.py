@@ -18,7 +18,7 @@ def index(request):
 
 
 @require_GET
-def game_page(request, game_slug):
+def games(request, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
     products = Product.objects.filter(game_object__game=game)
     paginator, page = tools.paginate(request, products, baseurl=game.get_absolute_url())
@@ -28,7 +28,12 @@ def game_page(request, game_slug):
 
 
 @require_GET
-def game_object_page(request, game_slug, object_slug):
+def add_game(request):
+    pass
+
+
+@require_GET
+def game_object(request, game_slug, object_slug):
     game = get_object_or_404(Game, slug=game_slug)
     object = get_object_or_404(Object, game=game, slug=object_slug)
     products = get_list_or_404(Product, game_object=get_object_or_404(Game_Object, game=game, object=object))
@@ -43,8 +48,12 @@ def game_object_page(request, game_slug, object_slug):
     return render(request, 'accstore_app/game_object_page.html', context)
 
 
+def add_object(request, game_slug):
+    pass
+
+
 @require_GET
-def product_page(request, game_slug, object_slug, product_id):
+def products(request, game_slug, object_slug, product_id):
     game = get_object_or_404(Game, slug=game_slug)
     object = get_object_or_404(Object, game=game, slug=object_slug)
     product = get_object_or_404(Product, pk=product_id)
@@ -57,12 +66,12 @@ def product_page(request, game_slug, object_slug, product_id):
     return render(request, 'accstore_app/product_page.html', context)
 
 
-def add_product_page(request, game_slug, object_slug):
+def add_product(request, game_slug, object_slug):
     pass
 
 
 @require_GET
-def filter_page(request):
+def filter_products(request):
     game = get_object_or_404(Game, slug='world-of-warcraft')
     object = get_object_or_404(Object, slug='accounts')
 
@@ -76,6 +85,6 @@ def filter_page(request):
     return render(request, 'accstore_app/filter_page.html', context)
 
 
-def config_page(request, config_id):
+def config(request, config_id):
     tools.add_models('accstore_app/data/data.json', add_random_products=True, amount=1000)
     return HttpResponse('Completed')
