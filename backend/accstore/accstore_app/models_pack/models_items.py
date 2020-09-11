@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
+from accstore_app.models_pack.models_user import Seller
+
 
 class Game(models.Model):
     title = models.CharField(verbose_name='Название', max_length=128, db_index=True, unique=True)
@@ -90,7 +92,6 @@ class Value(models.Model):
     def __str__(self):
         return f'{self.value}'
 
-
 class Product(models.Model):
     title = models.CharField(verbose_name='Название', max_length=64)
     game_object = models.ForeignKey(Game_Object, on_delete=models.PROTECT, verbose_name='Объект игры')
@@ -98,6 +99,9 @@ class Product(models.Model):
     pre_values = models.ManyToManyField(Value,
                                         through='Product_PreValue',
                                         verbose_name='Значения')
+    seller = models.ForeignKey(Seller, verbose_name='Продавец', on_delete=models.CASCADE)
+    is_active = models.BooleanField(verbose_name='Активен?')
+
 
     class Meta:
         verbose_name = 'Товар'

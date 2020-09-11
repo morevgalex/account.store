@@ -1,20 +1,76 @@
-from django.http import HttpResponse
+from datetime import datetime, timedelta
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .models import *
-from .utils import tools
+from . import forms
+from .utils import tools, auth
 from django.views.decorators.http import require_GET
 from django.shortcuts import get_object_or_404, get_list_or_404
 
-from .utils.tools import FilterError
+from .utils.auth import get_auth_data
+from .utils.tools import get_sha, FilterError
 
 
 @require_GET
 def index(request):
-    games = get_list_or_404(Game)
+    games = Game.objects.all()
     paginator, page = tools.paginate(request, games, baseurl=reverse('index'))
 
     context = {'games': page.object_list, 'paginator': paginator, 'page': page}
     return render(request, 'accstore_app/base.html', context)
+
+
+def login(request):
+    login_form = forms.LoginForm()
+    error = ''
+    if request.method == 'POST' and request.user:
+        error = 'Вы уже вошли'
+    elif request.method == 'POST':
+        login_, password, url = get_auth_data(request)
+        sessid = auth.do_login(login_, password)
+        if sessid:
+            response = HttpResponseRedirect(url)
+            response.set_cookie('sessid', sessid, httponly=True, domain='127.0.0.1',
+                                expires=datetime.now() + timedelta(days=7))
+            return response
+        else:
+            error = 'Неверный логин / пароль'
+
+    return render(request, 'accstore_app/login.html', context={'error': error, 'login_form': login_form})
+
+
+def register(request):
+    login_form = forms.RegisterForm()
+    error = ''
+    if request.method == 'POST' and request.user:
+        error = 'Вы уже вошли'
+    elif request.method == 'POST':
+        login_, password, url = get_auth_data(request)
+        email = request.POST.get('email')
+        User.objects.create(login=login_, sha_password=get_sha(password), email=email)
+        print(login_, password)
+        sessid = auth.do_login(login_, password)
+        if sessid:
+            response = HttpResponseRedirect(url)
+            response.set_cookie('sessid', sessid, httponly=True, domain='127.0.0.1',
+                                expires=datetime.now() + timedelta(days=7))
+            return response
+        else:
+            error = 'Неверный логин / пароль'
+
+    return render(request, 'accstore_app/register.html', context={'error': error, 'login_form': login_form})
+
+
+def logout(request):
+    url = request.GET.get('continue', '/')
+    if request.session1:
+        key = request.session1.key
+        Session.objects.get(key=key).delete()
+        response = HttpResponseRedirect(url)
+        response.set_cookie('sessid', key, expires=datetime(year=1975, month=1, day=1))
+        return response
+
+    return HttpResponseRedirect(url)
 
 
 @require_GET
@@ -86,5 +142,12 @@ def filter_products(request):
 
 
 def config(request, config_id):
-    tools.add_models('accstore_app/data/data.json', add_random_products=True, amount=1000)
+    tools.add_models('accstore_app/data/data.json', add_random_products=True, amount=100)
     return HttpResponse('Completed')
+
+
+def hack(request):
+    if request.user:
+        return HttpResponse('hack')
+    else:
+        return HttpResponse('no hack')

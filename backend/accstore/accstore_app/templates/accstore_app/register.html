@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% include 'accstore_app/elements/head/meta_head.html' %}
+<title>Register | {{ sitename }}</title>
+{% endblock %}
+
+{% block auth %}
+{% endblock %}
+
+{% block content %}
+{{ error }}
+<form method="POST">
+    {% csrf_token %}
+    {{ login_form.as_p }}
+    <input type="submit" value="OK">
+</form>
+{% endblock %}

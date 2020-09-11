@@ -3,6 +3,10 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('hack/', views.index, name='hack'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
+    path('register/', views.register, name='register'),
     path('config/<int:config_id>/', views.config),
     path('filter/', views.filter_products),
     path('<str:game_slug>/', views.games, name='game'),

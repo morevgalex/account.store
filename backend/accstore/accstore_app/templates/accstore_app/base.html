@@ -6,6 +6,15 @@
     {% endblock %}
 </head>
 <body>
+{% block auth %}
+{% if request.user %}
+<p>Hello {{ request.user }}!</p>
+<a href="{% url 'logout' %}">Выйти</a>
+{% else %}
+<a href="{% url 'login' %}">Войти</a>
+<a href="{% url 'register' %}">Регистрация</a>
+{% endif %}
+{% endblock %}
 {% block content %}
 {% include 'accstore_app/elements/content/games_with_objects.html' %}
 {% endblock %}
