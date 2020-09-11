@@ -8,3 +8,7 @@ class LoginForm(forms.Form):
 
 class RegisterForm(LoginForm):
     email = forms.EmailField()
+
+
+class ChatMessageForm(forms.Form):
+    message = forms.CharField(max_length=256)

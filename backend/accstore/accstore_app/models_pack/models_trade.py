@@ -47,3 +47,6 @@ class Message(models.Model):
     text = models.CharField(verbose_name='Текст', max_length=256)
     chat = models.ForeignKey(Chat, verbose_name='Чат', on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.text

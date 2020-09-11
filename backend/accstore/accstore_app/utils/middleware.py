@@ -11,7 +11,7 @@ class CheckSessionMiddleware:
         try:
             key = request.COOKIES.get('sessid', '')
             session = Session.objects.get(key=key, expired__gt=datetime.now())
-            request.session1 = session
+            request.session = session
             request.user = session.user
 
         except Session.DoesNotExist:

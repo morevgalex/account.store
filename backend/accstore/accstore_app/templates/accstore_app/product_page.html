@@ -6,6 +6,6 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{product.title}} - {{ product.seller }}</h1>
+<h1>{{product.title}} - <a href="{% url 'user_page' product.seller.user.id %}">{{ product.seller }}</a></h1>
 {% include 'accstore_app/elements/content/values.html' %}
 {% endblock %}

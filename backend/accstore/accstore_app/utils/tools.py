@@ -120,6 +120,8 @@ def paginate(request, qs, limit_name='limit', default_limit=10, max_limit=100, p
         limit = default_limit
     try:
         page = int(request.GET.get(page_name, 1))
+        if page < 1:
+            page = 1
     except ValueError:
         raise Http404
     paginator = Paginator(qs, limit)

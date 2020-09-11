@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>Personal page of <b>{{ target_user }}</b></p>
+{% if target_user.role.role == roles.seller %}
+<p>Товары <b>{{ target_user }}</b></p>
+{% include 'accstore_app/elements/content/products.html' %}
+
+{% endif %}
+{% endblock %}
