@@ -105,8 +105,34 @@ def user_page(request, user_id):
     paginator, page = tools.paginate(request, products,
                                      baseurl=reverse('user_page', kwargs={'user_id': target_user.id}))
 
+    chat_form = ChatMessageForm()
+    p_chat = None
+    p_messages = None
+    chat_id = None
+    if request.user and request.user != target_user:
+        try:
+            p_chat = PersonalChat.objects.filter(users=request.user).get(users=target_user)
+            print(p_chat)
+
+
+        except PersonalChat.DoesNotExist:
+            try:
+                chat_id = Chat.objects.last().id + 1
+            except TypeError:
+                chat_id = 2
+
+            chat = Chat.objects.create(id=chat_id)
+            p_chat = PersonalChat.objects.create(chat=chat)
+            p_chat.users.set([request.user, target_user])
+
+            p_chat = PersonalChat.objects.filter(users=request.user).get(users=target_user)
+
+        chat = Chat.objects.get(id=p_chat.chat.id)
+        chat_id = chat.id
+        p_messages = Message.objects.filter(chat=chat)
+
     context = {'target_user': target_user, 'products': page.object_list,
-               'roles': {'admin': 0, 'moderator': 1, 'seller': 3, 'user': 2}, 'paginator': paginator, 'page': page}
+               'roles': {'admin': 0, 'moderator': 1, 'seller': 3, 'user': 2}, 'paginator': paginator, 'page': page, 'messages': p_messages, 'chat_form': chat_form, 'chat_id': chat_id}
     return render(request, 'accstore_app/user_page.html', context)
 
 
