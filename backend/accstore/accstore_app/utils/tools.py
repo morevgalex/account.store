@@ -1,15 +1,17 @@
-from django.core.paginator import Paginator, EmptyPage
-from django.http import Http404
-from django.shortcuts import get_object_or_404, render
-from django.db.models import Q
-
+import hashlib
 from accstore_app.models import *
 import random
 import json
-from accstore.settings import *
+from django.core.paginator import Paginator, EmptyPage
+from django.http import Http404
+from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from accstore_app.settings import SALT
 
 
 def add_models(path, add_random_products=False, amount=100):
+    admin, moder, sellers, users = add_users()
+
     games = json.load(open(path))
 
     # create game
@@ -35,7 +37,8 @@ def add_models(path, add_random_products=False, amount=100):
                 name = attribute_['name']
                 is_predefined = (lambda x: x == 'True')(attribute_['is_predefined'])
                 typeof = attribute_['typeof']
-                attribute = Attribute(name=name, game_object=Game_Object.objects.get(game=game, object=object), typeof=typeof,
+                attribute = Attribute(name=name, game_object=Game_Object.objects.get(game=game, object=object),
+                                      typeof=typeof,
                                       is_predefined=is_predefined)
                 attribute.save()
 
@@ -54,7 +57,6 @@ def add_models(path, add_random_products=False, amount=100):
                 else:
                     nonpre_attributes.append(attribute)
 
-
             if add_random_products:
                 if nonpre_attributes:
                     choices_nonpre = [f'NonPreValue{x}' for x in range(5)]
@@ -67,7 +69,7 @@ def add_models(path, add_random_products=False, amount=100):
                     title = ' '.join([value.value for value in values_for_product])
 
                     product = Product(title=title, game_object=Game_Object.objects.get(game=game, object=object),
-                                      description='')
+                                      description='', seller = random.choice(sellers), is_active=True)
                     product.save()
                     product.pre_values.add(*values_for_product)
 
@@ -76,6 +78,37 @@ def add_models(path, add_random_products=False, amount=100):
                         Value(product_nonprevalue=product, value=choice, attribute=attribute).save()
                         product.title += f' {choice}'
                         product.save()
+
+                    for i in range(10):
+                        user = random.choice(users)
+                        seller = product.seller
+                        if user != seller.user:
+                            order = Order.objects.create(user=random.choice(users), product=product, status=0)
+                            Dispute.objects.create(order=order, status=0)
+
+
+def add_users():
+    role_adm = Role.objects.create(role=0)
+    role_mod = Role.objects.create(role=1)
+    role_usr = Role.objects.create(role=2)
+    role_sel = Role.objects.create(role=3)
+
+    admin = User.objects.create(login='admin', sha_password=get_sha('admin'), email='mor.evg.alex@gmail.com',
+                                role=role_adm)
+    moder = User.objects.create(login='moder', sha_password=get_sha('moder'), email='moder@moder.com',
+                                role=role_mod)
+    user1 = User.objects.create(login='seller1', sha_password=get_sha('seller1'), email='seller1@seller1.com',
+                                    role=role_sel)
+    user2 = User.objects.create(login='seller2', sha_password=get_sha('seller2'), email='seller2@seller2.com',
+                                    role=role_sel)
+    user3 = User.objects.create(login='user3', sha_password=get_sha('user3'), email='user3@user3.com',
+                                role=role_usr)
+    user4 = User.objects.create(login='user4', sha_password=get_sha('user4'), email='user4@user4.com',
+                                role=role_usr)
+    seller1 = Seller.objects.create(user=user1)
+    seller2 = Seller.objects.create(user=user2)
+
+    return admin, moder, (seller1, seller2), (user1, user2, user3, user4)
 
 
 def paginate(request, qs, limit_name='limit', default_limit=10, max_limit=100, page_name='page', baseurl=''):
@@ -87,6 +120,8 @@ def paginate(request, qs, limit_name='limit', default_limit=10, max_limit=100, p
         limit = default_limit
     try:
         page = int(request.GET.get(page_name, 1))
+        if page < 1:
+            page = 1
     except ValueError:
         raise Http404
     paginator = Paginator(qs, limit)
@@ -98,15 +133,11 @@ def paginate(request, qs, limit_name='limit', default_limit=10, max_limit=100, p
     return paginator, page
 
 
-def sitename(request):
-    return {'sitename': SITENAME}
-
-
 def sort_helper(game, object, conditions='TODO'):
     condition_game_object = Q(attribute__game_object=get_object_or_404(Game_Object, game=game, object=object))
 
     condition_prevalue = Q(product_nonprevalue__isnull=True) & condition_game_object
-    condition_race = Q(attribute__name='Racef', value='Dwarf') & condition_prevalue
+    condition_race = Q(attribute__name='Race', value='Dwarf') & condition_prevalue
     condition_class = Q(attribute__name='Class', value='Mage') & condition_prevalue
     conditions_for_prevalue = (condition_race, condition_class)
 
@@ -134,3 +165,6 @@ class FilterError(Exception):
     def __init__(self, text):
         self.text = text
 
+
+def get_sha(string):
+    return hashlib.sha256((string + SALT).encode('ascii')).digest()

@@ -1,3 +1,3 @@
 {% for product in products %}
-<p><a href="{{ product.get_absolute_url }}">{{ product }}</a></p>
+<p><a href="{{ product.get_absolute_url }}">{{ product }}</a> - <a href="{% url 'user_page' product.seller.user.id %}"> {{ product.seller }}</a></p>
 {% endfor %}
