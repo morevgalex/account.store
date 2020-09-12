@@ -2,18 +2,8 @@
 
 {% block content %}
 <p>Personal page of <b>{{ target_user }}</b></p>
-{% if request.user and request.user != target_user %}
-<form method="POST" action="{% url 'send_message' %}">
-    <input type="hidden" name="chat_id", value="{{ chat_id }}">
-    {% csrf_token %}
-    {{ chat_form.as_p }}
-    <input type="submit" value="Отправить">
-</form>
-{% endif %}
-
-{% for message in messages %}
-<p><b>{{ message.user }}:</b> {{ message }}</p>
-{% endfor %}
+{% include 'accstore_app/elements/form_mess.html' %}
+{% include 'accstore_app/elements/content/messages.html' %}
 
 {% if target_user.role.role == roles.seller %}
 

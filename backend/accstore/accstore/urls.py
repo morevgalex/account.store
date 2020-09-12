@@ -3,5 +3,5 @@ from django.urls import path
 from django.urls import include
 
 urlpatterns = [
-    path('', include('accstore_app.urls'))
+    path('<str:lang>/', include('accstore_app.urls'))
 ]

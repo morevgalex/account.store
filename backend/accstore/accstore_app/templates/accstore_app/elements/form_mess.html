@@ -1,0 +1,8 @@
+{% if request.user %}
+<form method="POST" action="{% url 'send_message' lang %}">
+    <input type="hidden" name="chat_id", value="{{ chat_id }}">
+    {% csrf_token %}
+    {{ chat_form.as_p }}
+    <input type="submit" value="Отправить">
+</form>
+{% endif %}
