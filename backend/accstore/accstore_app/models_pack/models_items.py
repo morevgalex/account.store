@@ -17,8 +17,8 @@ class Game(models.Model):
         verbose_name_plural = 'Игры'
         ordering = ['title']
 
-    def get_absolute_url(self):
-        return reverse('game', kwargs={'game_slug': self.slug})
+    def get_absolute_url(self, lang):
+        return reverse('game', kwargs={'lang': lang, 'game_slug': self.slug})
 
     def __str__(self):
         return self.title
@@ -107,9 +107,9 @@ class Product(models.Model):
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
 
-    def get_absolute_url(self):
+    def get_absolute_url(self, lang):
         return reverse('product',
-                       kwargs={'game_slug': self.game_object.game.slug, 'object_slug': self.game_object.object.slug,
+                       kwargs={'lang': lang, 'game_slug': self.game_object.game.slug, 'object_slug': self.game_object.object.slug,
                                'product_id': self.id})
 
     def __str__(self):

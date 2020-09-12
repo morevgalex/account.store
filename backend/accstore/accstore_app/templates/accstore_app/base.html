@@ -6,31 +6,21 @@
     {% endblock %}
 </head>
 <body>
-<a href="{% url 'index' %}">Главная</a>
+<a href="{% url 'index' lang %}">Главная</a>
 {% block auth %}
 {% if request.user %}
 <p>Hello {{ request.user }}!</p>
-<a href="{% url 'logout' %}">Выйти</a>
+<a href="{% url 'logout' lang %}">Выйти</a>
 {% else %}
-<a href="{% url 'login' %}">Войти</a>
-<a href="{% url 'register' %}">Регистрация</a>
+<a href="{% url 'login' lang %}">Войти</a>
+<a href="{% url 'register' lang %}">Регистрация</a>
 {% endif %}
 {% endblock %}
 {% block content %}
 {% include 'accstore_app/elements/content/games_with_objects.html' %}
 
-{% if request.user %}
-<form method="POST" action="{% url 'send_message' %}">
-    <input type="hidden" name="chat_id", value="{{ chat_id }}">
-    {% csrf_token %}
-    {{ chat_form.as_p }}
-    <input type="submit" value="Отправить">
-</form>
-{% endif %}
-
-{% for message in messages %}
-<p><b>{{ message.user }}:</b> {{ message }}</p>
-{% endfor %}
+{% include 'accstore_app/elements/form_mess.html' %}
+{% include 'accstore_app/elements/content/messages.html' %}
 
 {% endblock %}
 

@@ -38,7 +38,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'accstore_app.utils.context_processors.sitename'
+                'accstore_app.utils.context_processors.accstore_app_context'
             ],
         },
     },
