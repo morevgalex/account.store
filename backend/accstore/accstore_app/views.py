@@ -11,16 +11,7 @@ from django.views.decorators.http import require_GET, require_POST
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 from .utils.auth import get_auth_data
-from .utils.tools import get_sha, FilterError
-
-
-def set_lang(f):
-    def func(*args, **kwargs):
-        lang = kwargs['lang']
-        args[0].lang=lang
-
-        return f(*args, **kwargs)
-    return func
+from .utils.tools import get_sha, FilterError, set_lang
 
 
 @set_lang
@@ -40,7 +31,7 @@ def index(request, **kwargs):
 
     context = {'games': page.object_list, 'paginator': paginator, 'page': page, 'chat_form': chat_form,
                'messages': g_messages, 'chat_id': chat_1[0].id}
-    return render(request, 'accstore_app/base.html', context)
+    return render(request, f'accstore_app/{request.temp_prefix}base.html', context)
 
 
 @require_POST
@@ -73,7 +64,7 @@ def login(request, **kwargs):
         else:
             error = 'Неверный логин / пароль'
 
-    return render(request, 'accstore_app/login.html', context={'error': error, 'login_form': login_form})
+    return render(request, f'accstore_app/{request.temp_prefix}login.html', context={'error': error, 'login_form': login_form})
 
 
 @set_lang
@@ -96,7 +87,7 @@ def register(request, **kwargs):
         else:
             error = 'Неверный логин / пароль'
 
-    return render(request, 'accstore_app/register.html', context={'error': error, 'login_form': login_form})
+    return render(request, f'{request.temp_prefix}accstore_app/{request.temp_prefix}register.html', context={'error': error, 'login_form': login_form})
 
 
 @set_lang
@@ -147,7 +138,7 @@ def user_page(request, user_id, **kwargs):
     context = {'target_user': target_user, 'products': page.object_list,
                'roles': ROLES, 'paginator': paginator, 'page': page, 'messages': p_messages, 'chat_form': chat_form,
                'chat_id': chat_id}
-    return render(request, 'accstore_app/user_page.html', context)
+    return render(request, f'accstore_app/{request.temp_prefix}user_page.html', context)
 
 
 @set_lang
@@ -158,12 +149,13 @@ def games(request, game_slug, **kwargs):
     paginator, page = tools.paginate(request, products, baseurl=game.get_absolute_url())
 
     context = {'game': game, 'products': page.object_list, 'paginator': paginator, 'page': page}
-    return render(request, 'accstore_app/game_page.html', context)
+    return render(request, f'accstore_app/{request.temp_prefix}game_page.html', context)
 
 
 @set_lang
 @require_GET
 def add_game(request):
+    # TODO
     pass
 
 
@@ -182,7 +174,7 @@ def game_object(request, game_slug, object_slug, **kwargs):
                'products': page.object_list,
                'paginator': paginator,
                'page': page}
-    return render(request, 'accstore_app/game_object_page.html', context)
+    return render(request, f'{request.temp_prefix}accstore_app/{request.temp_prefix}game_object_page.html', context)
 
 
 @set_lang
@@ -197,7 +189,7 @@ def products(request, game_slug, object_slug, product_id, **kwargs):
                'object': object,
                'product': product,
                'values': values}
-    return render(request, 'accstore_app/product_page.html', context)
+    return render(request, f'{request.temp_prefix}accstore_app/{request.temp_prefix}product_page.html', context)
 
 
 @set_lang
@@ -219,7 +211,7 @@ def filter_products(request, **kwargs):
 
     context = {'game': game, 'object': object, 'products': filtered_products}
 
-    return render(request, 'accstore_app/filter_page.html', context)
+    return render(request, f'{request.temp_prefix}accstore_app/{request.temp_prefix}filter_page.html', context)
 
 
 @set_lang

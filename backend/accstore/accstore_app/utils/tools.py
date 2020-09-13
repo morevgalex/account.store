@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, EmptyPage
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from accstore_app.settings import SALT
+from accstore_app.settings import SALT, LANGS
 
 
 def add_models(path, add_random_products=False, amount=100):
@@ -168,3 +168,26 @@ class FilterError(Exception):
 
 def get_sha(string):
     return hashlib.sha256((string + SALT).encode('ascii')).digest()
+
+
+class LangDoesNotExist(Exception):
+
+    def __init__(self, text):
+        self.text = text
+
+
+def set_lang(f):
+    def func(*args, **kwargs):
+        try:
+            lang = kwargs['lang']
+            if lang not in LANGS:
+                raise LangDoesNotExist(f'lang \'{lang}\' does not exist')
+        except KeyError:
+            raise Http404()
+
+        args[0].lang = lang
+        args[0].temp_prefix = f'{lang}/'
+
+        return f(*args, **kwargs)
+
+    return func
